@@ -19,7 +19,7 @@ fn main() -> std::io::Result<()> {
             let response = process_request(request);
 
             let format_response = format!("{}\n", response);
-            println!("response: {:?}", format_response);
+            println!("response: {:?}", response);
             stream.write_all(format_response.as_bytes()).unwrap();
         }
     });

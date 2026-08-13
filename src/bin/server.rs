@@ -5,16 +5,24 @@ use std::{thread};
 use std::net::{TcpListener, TcpStream};
 
 fn main() -> std::io::Result<()> {
-    let _handle = thread::spawn(|| {
+    let handle = thread::spawn(|| {
         let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
-        listener.incoming().for_each(|stream| {
+        for stream in listener.incoming() {
             let mut stream = stream.unwrap();
-            let request = handle_connection(&stream);
+            let request = handle_connection(&stream).to_lowercase();
             println!("request: {:?}", request);
+            if request == "shutdown" {
+                stream.write_all(b"Server is shutting down...\n").unwrap();
+                println!("Shutdown command received. Stopping server...");
+                break;
+            }
             let response = process_request(request);
-            stream.write_all(response.as_bytes()).unwrap();
-        });
+
+            let format_response = format!("{}\n", response);
+            stream.write_all(format_response.as_bytes()).unwrap();
+        }
     });
+    handle.join().unwrap();
     Ok(())
 }
 fn handle_connection(stream: &TcpStream) -> String {
@@ -24,10 +32,8 @@ fn handle_connection(stream: &TcpStream) -> String {
     output
 }
 fn process_request(request: String) ->String {
-    loop {
-        return match &request[..] {
-            "Hello" => "Hello".to_string(),
-            _ => ("{request} is an invalid command!").to_string(),
+    match &request[..] {
+        "hello" => "Hello".to_string(),
+        _ => format!("{} is an invalid command!", request),
         }
-    }
 }

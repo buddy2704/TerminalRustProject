@@ -1,5 +1,4 @@
-This project functions as a testing ground for me to begin work on bigger projects. The project allows you to create and connect to a local server, as well as alter a database using rusqlite.
-
+A Rust client-server application designed as a foundation for exploring networking, concurrency, and database systems. The application creates a local TCP server, supports multiple concurrent clients, and provides commands for reading and modifying data stored in a SQLite database.
 STEPS TO LAUNCH:
 1. Download the project
 2. Open two instances of terminal

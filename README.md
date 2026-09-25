@@ -1,4 +1,5 @@
 This project functions as a testing ground for me to begin work on bigger projects. The project allows you to create and connect to a local server, as well as alter a database using rusqlite.
+
 STEPS TO LAUNCH:
 1. Download the project
 2. Open two instances of terminal
